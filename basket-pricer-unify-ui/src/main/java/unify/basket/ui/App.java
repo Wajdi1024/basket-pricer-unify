@@ -35,7 +35,7 @@ public class App {
         Scanner scanner = new Scanner(System.in);  // Create a Scanner object
         String[] userInput = scanner.nextLine().split(" ");
 
-        if (userInput.length <= 1 || !"PriceBasket".equals(args[0])) {
+        if (userInput.length <= 1 || !"PriceBasket".equals(userInput[0])) {
             System.out.println("Unkonwn Command !!!!!");
             return;
         }
