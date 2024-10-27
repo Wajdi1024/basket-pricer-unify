@@ -8,7 +8,7 @@ import unify.basket.exceptions.BasketCreationException;
 import unify.basket.repositories.BasketRepository;
 import unify.basket.repositories.ProductRepository;
 import unify.basket.repositories.SpecialOfferRepository;
-import unify.basket.util.SpecialOfferUtils;
+import unify.basket.utils.SpecialOfferUtils;
 
 import java.util.List;
 import java.util.Optional;
@@ -31,7 +31,7 @@ public class BasketPricerImpl implements BasketPricer {
             }
             basket.addProduct(optionalProduct.get());
         }
-        Optional<SpecialOffer> basketSpecialOffer = specialOfferRepository.findBasketSpecialOfferByProucts(basket.getProductList());
+        Optional<SpecialOffer> basketSpecialOffer = specialOfferRepository.findByProducts(basket.getProductList());
         if(basketSpecialOffer.isPresent() && SpecialOfferUtils.isAvailable(basketSpecialOffer.get())) {
             basket.applySpecialOffer((BasketSpecialOffer) basketSpecialOffer.get());
         }

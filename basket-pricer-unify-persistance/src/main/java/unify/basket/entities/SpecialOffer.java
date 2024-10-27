@@ -1,11 +1,13 @@
 package unify.basket.entities;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 public abstract class SpecialOffer {
 
     private Long specialOfferId;
 
+    private String label;
     private LocalDate startDate;
     private LocalDate endDate;
     private EnumDiscountType discountType;
@@ -35,6 +37,14 @@ public abstract class SpecialOffer {
         this.endDate = endDate;
     }
 
+    public String getLabel() {
+        return label;
+    }
+
+    public void setLabel(String label) {
+        this.label = label;
+    }
+
     public EnumDiscountType getDiscountType() {
         return discountType;
     }
@@ -49,5 +59,18 @@ public abstract class SpecialOffer {
 
     public void setDiscountValue(Double discountValue) {
         this.discountValue = discountValue;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        SpecialOffer that = (SpecialOffer) o;
+        return Objects.equals(specialOfferId, that.specialOfferId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(specialOfferId);
     }
 }

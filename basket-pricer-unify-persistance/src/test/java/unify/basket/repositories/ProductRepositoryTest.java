@@ -34,6 +34,7 @@ class ProductRepositoryTest {
     void findById_oneProductFound() {
         Optional<Product> soup = productRepository.findById("soup");
         assertTrue(soup.isPresent());
+        assertEquals("soup", soup.get().getName());
     }
 
     @Test

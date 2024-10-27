@@ -1,18 +1,20 @@
 package unify.basket.entities;
 
+import org.apache.commons.lang3.StringUtils;
+import unify.basket.utils.CurrencyUtils;
+
 import java.time.LocalDate;
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.Objects;
-import java.util.Stack;
 
 public class Product {
 
     private String name;
 
-    private Deque<Price> prices = new ArrayDeque<>();
-
-    private Deque<SpecialOffer> specialOffers = new ArrayDeque<>();
+    EnumProductUnit enumProductUnit;
+    private Deque<Price> pricesHistory = new ArrayDeque<>();
+    private Deque<SpecialOffer> specialOffersHistory = new ArrayDeque<>();
 
     public String getName() {
         return name;
@@ -23,37 +25,37 @@ public class Product {
     }
 
     public Price getLastPrice() {
-        return prices.peek();
+        return pricesHistory.peek();
     }
 
     public SpecialOffer getLastSpecialOffer() {
-        return specialOffers.peek();
+        return specialOffersHistory.peek();
     }
 
-    public Deque<Price> getPrices() {
-        return prices;
+    public Deque<Price> getPricesHistory() {
+        return pricesHistory;
     }
 
-    public void setPrices(Deque<Price> prices) {
-        this.prices = prices;
+    public void setPricesHistory(Deque<Price> pricesHistory) {
+        this.pricesHistory = pricesHistory;
     }
 
-    public Deque<SpecialOffer> getSpecialOffers() {
-        return specialOffers;
+    public Deque<SpecialOffer> getSpecialOffersHistory() {
+        return specialOffersHistory;
     }
 
-    public void setSpecialOffers(Deque<SpecialOffer> specialOffers) {
-        this.specialOffers = specialOffers;
+    public void setSpecialOffersHistory(Deque<SpecialOffer> specialOffersHistory) {
+        this.specialOffersHistory = specialOffersHistory;
     }
 
     public void addPrice(Price price) {
-        if (this.prices.isEmpty()) {
-            this.prices.addFirst(price);
+        if (this.pricesHistory.isEmpty()) {
+            this.pricesHistory.addFirst(price);
             return;
         }
-        Price oldPrice = this.prices.peek();
+        Price oldPrice = this.pricesHistory.peek();
         LocalDate endDate = oldPrice.getEndDate();
-        this.prices.addFirst(price);
+        this.pricesHistory.addFirst(price);
         if (endDate == null) {
             oldPrice.setEndDate(LocalDate.now());
             return;
@@ -64,13 +66,13 @@ public class Product {
     }
 
     public void addSpecialOffer(SpecialOffer specialOffer) {
-        if (this.specialOffers.isEmpty()) {
-            this.specialOffers.addFirst(specialOffer);
+        if (this.specialOffersHistory.isEmpty()) {
+            this.specialOffersHistory.addFirst(specialOffer);
             return;
         }
-        SpecialOffer oldOffer = this.specialOffers.peek();
+        SpecialOffer oldOffer = this.specialOffersHistory.peek();
         LocalDate endDate = oldOffer.getEndDate();
-        this.specialOffers.addFirst(specialOffer);
+        this.specialOffersHistory.addFirst(specialOffer);
         if (endDate == null) {
             oldOffer.setEndDate(LocalDate.now());
             return;
@@ -80,12 +82,19 @@ public class Product {
         }
     }
 
+    public EnumProductUnit getEnumProductUnit() {
+        return enumProductUnit;
+    }
+
+    public void setEnumProductUnit(EnumProductUnit enumProductUnit) {
+        this.enumProductUnit = enumProductUnit;
+    }
 
     public Double getPriceWithDiscount() {
-        if (Objects.isNull(specialOffers.peek())) {
+        if (Objects.isNull(specialOffersHistory.peek())) {
             return this.getLastPrice().getValue();
         }
-        return this.getLastPrice().getValue() - this.getLastPrice().getValue() * specialOffers.peek().getDiscountValue();
+        return this.getLastPrice().getValue() - this.getLastPrice().getValue() * specialOffersHistory.peek().getDiscountValue();
     }
 
     @Override
@@ -96,8 +105,15 @@ public class Product {
         return Objects.equals(name, product.name);
     }
 
+
     @Override
     public int hashCode() {
         return Objects.hash(name);
+    }
+
+
+    @Override
+    public String toString() {
+        return name + " - " + CurrencyUtils.format(pricesHistory.peek().getValue()) + " per " + StringUtils.lowerCase(String.valueOf(enumProductUnit));
     }
 }

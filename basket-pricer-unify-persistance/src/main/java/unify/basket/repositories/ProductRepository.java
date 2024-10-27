@@ -13,7 +13,7 @@ public class ProductRepository implements  AbstractRepository<Product, String> {
     private static final  Set<Product> products = new HashSet<>();
     @Override
     public Optional<Product> findById(String s) {
-        return products.stream().filter(p -> s.equals(p.getName())).findFirst();
+        return products.stream().filter(p -> s.equalsIgnoreCase(p.getName())).findFirst();
     }
 
     @Override
@@ -41,8 +41,8 @@ public class ProductRepository implements  AbstractRepository<Product, String> {
             throw new EntityNotFound("Product not found");
         }
         Product newProduct = optionalProduct.get();
-        newProduct.setPrices(product.getPrices());
-        newProduct.setSpecialOffers(product.getSpecialOffers());
+        newProduct.setPricesHistory(product.getPricesHistory());
+        newProduct.setSpecialOffersHistory(product.getSpecialOffersHistory());
         return newProduct;
     }
 

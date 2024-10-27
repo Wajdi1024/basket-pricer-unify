@@ -8,7 +8,8 @@ import unify.basket.fixture.BasketFixture;
 
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class BasketRepositoryTest {
 
@@ -23,8 +24,6 @@ class BasketRepositoryTest {
     @Test
     void insertOne_success() {
         Basket basket = new Basket();
-        basket.setSubTotal(100.0);
-        basket.setTotalPrice(120.0);
         basket.applySpecialOffer(new BasketSpecialOffer());
         Basket insertedBasket = basketRepository.insertOne(basket);
         assertNotNull(insertedBasket.getId());
