@@ -17,7 +17,7 @@ public class ProductSpecialOffer extends SpecialOffer {
     @Override
     public String toString() {
         if (discountType == EnumDiscountType.PERCENT) {
-            return product.getName() + " " + (int) (discountValue * 100) + " off: " + CurrencyUtils.format(product.getLastPrice().getValue() * discountValue);
+            return product.getName() + " " + (int) (discountValue * 100) + " off: -" + CurrencyUtils.format(product.getLastPrice().getValue() * discountValue);
         }
         if (discountType == EnumDiscountType.GET_FREE) {
             return product.getName() + "off: " + CurrencyUtils.format(product.getLastPrice().getValue());
