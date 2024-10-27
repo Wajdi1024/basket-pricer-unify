@@ -51,9 +51,9 @@ public class BasketPricerController {
         milk.setEnumProductUnit(EnumProductUnit.BOTTLE);
         productService.add(milk);
         BasketSpecialOffer basketSpecialOffer = new BasketSpecialOffer();
-        basketSpecialOffer.getPurchasedProducts().add(bread);
         basketSpecialOffer.getPurchasedProducts().add(souap);
-        basketSpecialOffer.getOfferedProducts().add(milk);
+        basketSpecialOffer.getPurchasedProducts().add(souap);
+        basketSpecialOffer.getOfferedProducts().add(bread);
         basketSpecialOffer.setDiscountType(EnumDiscountType.PERCENT);
         basketSpecialOffer.setDiscountValue(0.5);
         basketSpecialOffer.setLabel("Buy 2 tins of soup and get a loaf of bread for half price");
