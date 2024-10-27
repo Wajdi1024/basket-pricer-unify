@@ -66,6 +66,7 @@ public class Product {
     }
 
     public void addSpecialOffer(SpecialOffer specialOffer) {
+        ((ProductSpecialOffer) specialOffer).setProduct(this);
         if (this.specialOffersHistory.isEmpty()) {
             this.specialOffersHistory.addFirst(specialOffer);
             return;

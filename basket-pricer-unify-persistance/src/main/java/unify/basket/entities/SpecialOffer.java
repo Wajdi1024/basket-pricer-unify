@@ -5,13 +5,13 @@ import java.util.Objects;
 
 public abstract class SpecialOffer {
 
-    private Long specialOfferId;
+    protected Long specialOfferId;
 
-    private String label;
-    private LocalDate startDate;
-    private LocalDate endDate;
-    private EnumDiscountType discountType;
-    private Double discountValue;
+    protected String label;
+    protected LocalDate startDate;
+    protected LocalDate endDate;
+    protected EnumDiscountType discountType;
+    protected Double discountValue;
 
     public Long getSpecialOfferId() {
         return specialOfferId;

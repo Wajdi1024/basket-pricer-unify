@@ -12,6 +12,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 /**
  * Hello world!
@@ -43,7 +44,8 @@ public class App {
 
         try {
             Basket myBasket = basketPricerController.buy(Arrays.copyOfRange(userInput, 1, userInput.length));
-            showBasket(myBasket);
+            System.out.println(myBasket);
+            //showBasket(myBasket);
         } catch (BasketCreationException e) {
             System.out.println(e.getMessage());
         }
@@ -53,11 +55,20 @@ public class App {
 
     private static void showBasket(Basket basket) {
         System.out.println("Subtotal: " + CurrencyUtils.format(basket.getSubTotal()));
+        boolean noOfferAvailable = true;
         if (Objects.nonNull(basket.getSpecialOffer())) {
+            noOfferAvailable = false;
             System.out.println(basket.getSpecialOffer().getLabel());
         }
         if (CollectionUtils.isNotEmpty(basket.getProductList())) {
-            basket.getProductList().stream().filter(p -> Objects.nonNull(p.getLastSpecialOffer())).forEach(product -> System.out.println(product.getSpecialOffersHistory().getFirst().getLabel()));
+            List<SpecialOffer> speList = basket.getProductList().stream().filter(p -> Objects.nonNull(p.getLastSpecialOffer()))
+                    .map(product -> product.getLastSpecialOffer()).collect(Collectors.toList());
+            if (CollectionUtils.isNotEmpty(speList)) {
+                noOfferAvailable = false;
+            }
+        }
+        if (Boolean.TRUE.equals(noOfferAvailable)) {
+            System.out.println("(No offers available)");
         }
         System.out.println("Total: " + CurrencyUtils.format(basket.getTotalPrice()));
     }

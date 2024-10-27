@@ -1,10 +1,13 @@
 package unify.basket.entities;
 
 import unify.basket.utils.BasketUtils;
+import unify.basket.utils.CurrencyUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class Basket {
 
@@ -43,11 +46,16 @@ public class Basket {
 
 
     public boolean removeProduct(Product product) {
-        return this.productList.remove(product);
+        boolean result = this.productList.remove(product);
+        if (result) {
+            this.subTotal -= product.getLastPrice().getValue();
+            this.totalPrice -= product.getPriceWithDiscount();
+        }
+        return result;
     }
 
-    public boolean removeListProduct(List<Product> product) {
-        return this.productList.removeAll(product);
+    public void removeListProduct(List<Product> product) {
+        this.productList.forEach(this::removeProduct);
     }
 
     public void clearProducts() {
@@ -89,4 +97,18 @@ public class Basket {
         return totalPrice;
     }
 
+    @Override
+    public String toString() {
+        List<SpecialOffer> specialOffers = productList.stream().filter(product -> Objects.nonNull(product.getLastSpecialOffer()))
+                .map(product -> product.getLastSpecialOffer()).collect(Collectors.toList());
+        if (specialOffer != null) {
+            specialOffers.add(specialOffer);
+        }
+
+        String str = "SubTotal: " + CurrencyUtils.format(subTotal) + "\n";
+        for (SpecialOffer currentSpecial : specialOffers) {
+            str = str.concat(currentSpecial.toString()).concat("\n");
+        }
+        return str + "Total price: " + CurrencyUtils.format(totalPrice);
+    }
 }
