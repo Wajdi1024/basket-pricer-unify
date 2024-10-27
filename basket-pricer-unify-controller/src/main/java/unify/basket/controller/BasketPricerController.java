@@ -10,11 +10,11 @@ import java.util.List;
 
 public class BasketPricerController {
 
-    private BasketPricer basketPricer = new BasketPricerImpl();
+    private final BasketPricer basketPricer = new BasketPricerImpl();
 
-    private ProductService productService = new ProductServiceImpl();
+    private final ProductService productService = new ProductServiceImpl();
 
-    private SpecialOfferService specialOfferService = new SpecialOfferServiceImpl();
+    private final SpecialOfferService specialOfferService = new SpecialOfferServiceImpl();
 
     public Basket buy(String... productsNames) throws BasketCreationException {
         return basketPricer.createBasket(Arrays.asList(productsNames));
