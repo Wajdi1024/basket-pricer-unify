@@ -5,7 +5,7 @@
 **maven**
 
 **Windows**
-## BUILD && RUNING TESTS
+## BUILD && RUNNING TESTS
 To build the project run **mvn clean install** or **mvn clean package**
 ## RUNING
 After a zip file will be created under **basket-pricer-unify-ui\target**.
